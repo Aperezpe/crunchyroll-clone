@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: black;
+}
+
+:root {
+  --secondary-color: #dadada;
+  --tertiary-color: #23252b;
+  --crunchy-orange: #f47521;
+  --crown-yellow: #fab818;
+  --pill-color: #ffffff80;
+}
