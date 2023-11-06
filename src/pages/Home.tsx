@@ -5,7 +5,8 @@ import { useEffect, useState } from 'react';
 
 function Home() {
 
-  const [slideShowMovies, setSlideShowMovies] = useState<Movie[]>()
+  const [slideShowMovies, setSlideShowMovies] = useState<Movie[] | undefined>()
+  const [isImgLoaded, setIsImgLoaded] = useState<boolean>(false)
 
   const fetchSlideShowMovies = async () => {
     return fetch('http://localhost:3000/slideShowMovies') 
@@ -13,14 +14,29 @@ function Home() {
       .then(d => setSlideShowMovies(d))
   }
 
+
+
   useEffect(() => {
-    fetchSlideShowMovies()
-  }, [])
+    const loadImages = async () => {
+      for (const movie of slideShowMovies as Movie[]) {
+        (new Image()).src = movie.imgUrl;
+        (new Image()).src = movie.titleImgUrl;
+      }
+    }
+
+    if (!slideShowMovies) {
+      fetchSlideShowMovies()
+    } else {
+      loadImages()
+      setIsImgLoaded(true)
+    }
+    
+  }, [slideShowMovies])
 
   return (
     <div className='flex flex-col'>
       <div className='h-15'><Navbar/></div>
-      {slideShowMovies ? <HeroSlider movies={slideShowMovies}/> : <div>Loading...</div>}
+      {slideShowMovies && isImgLoaded ? <HeroSlider movies={slideShowMovies}/> : <div>Loading...</div>}
     </div>
   )
 }

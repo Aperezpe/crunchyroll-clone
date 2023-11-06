@@ -1,0 +1,12 @@
+@keyframes increaseWidthLr {
+  0% {width: 10%;}
+  100% {width: 112%;}
+}
+
+.currentPillAnimation::after {
+  content: '';
+  width: 10%;
+  animation-duration: 10s;
+  animation-timing-function: linear;
+  animation-name: increaseWidthLr;
+}
