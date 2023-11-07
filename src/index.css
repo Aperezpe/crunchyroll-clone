@@ -12,7 +12,10 @@ body {
 
 :root {
   --secondary-color: #dadada;
-  --tertiary-color: #23252b;
+  --tertiary-color: rgb(35, 37, 43);
+  --loading-bg-color: rgb(26, 26, 31);
+  --loading-element: rgb(22, 22, 27);
+  --loading-element-gradient: rgba(45, 45, 55, 0.638);
   --crunchy-orange: #f47521;
   --crown-yellow: #fab818;
   --pill-color: #ffffff80;

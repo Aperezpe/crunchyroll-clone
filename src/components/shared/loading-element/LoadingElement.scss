@@ -1,0 +1,23 @@
+
+$loading-element-gradient: var(--loading-element-gradient);
+$loading-element: var(--loading-element);
+$gradient-size1: 5%;
+
+@keyframes gradientSlide {
+  0%{background-position:50% 0%}
+  100%{background-position: -50% 0%;}
+
+}
+
+.animationLoadingElement {
+  background-image: linear-gradient(
+    135deg,
+    #{$loading-element} #{$gradient-size1}, 
+    #{$loading-element-gradient} calc(#{$gradient-size1} + 30px),
+    #{$loading-element-gradient} calc(#{$gradient-size1} + 80px),
+    #{$loading-element} calc(#{$gradient-size1} + 120px),
+  );
+  background-position: -50% 0%;
+  background-size: 500% 500%; // horizontal, vertical
+  animation: gradientSlide 0.5s linear backwards;
+}

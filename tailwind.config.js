@@ -10,7 +10,9 @@ export default {
         "tertiary-color": "var(--tertiary-color)",
         "secondary-color": "var(--secondary-color)",
         "crunchy-orange": "var(--crunchy-orange)",
-        "pill-color": "var(--pill-color)"
+        "pill-color": "var(--pill-color)",
+        "loading-bg-color": "var(--loading-bg-color)",
+        "loading-element": "var(--loading-element)"
       },
       spacing: {
         '15': '3.75rem'

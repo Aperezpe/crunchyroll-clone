@@ -1,4 +1,4 @@
-export interface Movie {
+export interface CrunchyRollElement {
   id: number,
   sub: boolean,
   dub: boolean,

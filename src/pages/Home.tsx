@@ -1,44 +1,88 @@
 import Navbar from '../components/navbar/Navbar'
 import HeroSlider from '../components/hero-slider/HeroSlider'
-import { Movie } from '../models/movie';
+import { CrunchyRollElement } from '../models/movie';
 import { useEffect, useState } from 'react';
+import { get } from '../utilities/http-request';
+import { Oval } from 'react-loader-spinner'
 
 function Home() {
 
-  const [slideShowMovies, setSlideShowMovies] = useState<Movie[] | undefined>()
+  const [slideShowElements, setSlideShowElements] = useState<CrunchyRollElement[]>()
   const [isImgLoaded, setIsImgLoaded] = useState<boolean>(false)
 
-  const fetchSlideShowMovies = async () => {
-    return fetch('http://localhost:3000/slideShowMovies') 
-      .then(res => res.json())
-      .then(d => setSlideShowMovies(d))
+  const fetchSlideShowElements = async () => {
+    try { 
+      const response = await get<CrunchyRollElement[]>('http://localhost:3000/slideShowMovies')
+      await new Promise(r => setTimeout(r, 500)) // TODO: delete, only for dev
+      setSlideShowElements(response.parsedBody)
+    } catch(error) {
+      console.log(error)
+    }
   }
 
-
-
-  useEffect(() => {
-    const loadImages = async () => {
-      for (const movie of slideShowMovies as Movie[]) {
-        (new Image()).src = movie.imgUrl;
-        (new Image()).src = movie.titleImgUrl;
+  // Pre-load images before showing to user, so that each slide element shows without delay
+  const loadImages = async () => {
+    const imagePromises: Promise<void>[] = []
+    if (slideShowElements) {
+      for (const movie of slideShowElements) {
+        const images = new Promise<void>((resolve) => {
+          const img = new Image();
+          img.src = movie.imgUrl;
+          img.src = movie.titleImgUrl;
+          img.onload = () => resolve();
+        });
+    
+        imagePromises.push(images);
       }
     }
 
-    if (!slideShowMovies) {
-      fetchSlideShowMovies()
+    try {
+      await new Promise(r => setTimeout(r, 1000))
+      await Promise.all(imagePromises)
+      setIsImgLoaded(true)
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
+
+  useEffect(() => {
+    if (slideShowElements === undefined) {
+      fetchSlideShowElements()
     } else {
       loadImages()
-      setIsImgLoaded(true)
     }
     
-  }, [slideShowMovies])
+  }, [slideShowElements])
 
   return (
     <div className='flex flex-col'>
-      <div className='h-15'><Navbar/></div>
-      {slideShowMovies && isImgLoaded ? <HeroSlider movies={slideShowMovies}/> : <div>Loading...</div>}
+      <Navbar />
+      <main className='mt-15 h-screen'>
+      {slideShowElements ? // First load all data
+        // Then load all images for each section
+        <>
+          <HeroSlider isImgLoaded={isImgLoaded} movies={slideShowElements} /> : 
+
+        </> : 
+        <div className='h-full flex items-center justify-center'>
+          <Oval
+          width={50}
+          color='#f47521'
+          secondaryColor='#f47521'
+          wrapperStyle={{}}
+          wrapperClass=''
+          visible={true}
+          ariaLabel='oval-loading'
+          strokeWidth={4}
+          strokeWidthSecondary={4}
+          />
+        </div>
+        
+      }
+      </main>
     </div>
-  )
+  );
 }
 
 export default Home
