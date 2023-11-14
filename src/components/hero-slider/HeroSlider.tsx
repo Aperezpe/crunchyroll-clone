@@ -83,7 +83,7 @@ const HeroSlider = (props: HeroSliderProps) => {
         h-[35rem]
         w-full
         relative
-        after:absolute after:bg-gradient-to-t after:from-black after:w-full after:h-full after:z-0
+        after:absolute after:bg-gradient-to-t after:from-black after:w-full after:h-full
         flex flex-col items-center justify-end`}>
 
         <div 

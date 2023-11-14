@@ -7,7 +7,7 @@ import ProfileImage from '../profile-image/ProfileImage'
 
 const Navbar = () => {
   return (
-    <nav className='fixed w-full h-15 bg-red-500 bg-tertiary-color flex items-stretch'>
+    <nav className='fixed w-full h-15 bg-red-500 bg-tertiary-color flex items-stretch z-50'>
       <a href='#' className='w-15 w- flex items-center justify-center'><MenuIcon fill='var(--secondary-color)' height="24px"/></a>
       <a href='#' className='w-15 flex items-center justify-center'><CrunchyLogo fill='var(--crunchy-orange)' height="23.69px"/></a>
       <span className='flex-grow'/>
