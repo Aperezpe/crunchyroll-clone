@@ -3,13 +3,16 @@ import BookMarkIcon from "../../assets/bookmark-icon.svg?react"
 import PlayIcon from "../../assets/play-icon.svg?react"
 import { CrunchyRollElement } from "../../models/movie"
 import { useEffect, useState } from "react"
-import './HeroSlider.scss'
 import LoadingElement from "../shared/loading-element/LoadingElement"
+
+import './HeroSlider.scss'
 
 type HeroSliderProps = {
   movies: CrunchyRollElement[];
   isImgLoaded: boolean;
 }
+
+let currentTimeout = 0
 
 // TODO: Las imagenes se tardan en cargar si se agarran una por una.
 // Al inisializar el componente, cargar todas las imagenes en el cache somehow
@@ -18,58 +21,102 @@ const HeroSlider = (props: HeroSliderProps) => {
   const { movies, isImgLoaded } = props
   // const [currentMovie, setCurrentMovie] = useState<Movie>(movies[0])
   const [currentMovieIndex, setCurrentMovieIndex] = useState<number>(0)
+  const [touchStart, setTouchStart] = useState<number>(0)
+  const [touchEnd, setTouchEnd] = useState<number>(0)
   
   useEffect(() => {
 
-    setTimeout(() => {
+    clearTimeout(currentTimeout)
+
+    currentTimeout = setTimeout(() => {
       setCurrentMovieIndex((currentMovieIndex +  1) % movies.length)
     }, 10000)
 
+
   }, [currentMovieIndex, movies.length])
 
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    setTouchStart(e.targetTouches[0].clientX)
+  }
+  
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    setTouchEnd(e.targetTouches[0].clientX)
+  }
+
+  const handleTouchEnd = () => {
+    if (touchStart - touchEnd > 75) {
+      // do your stuff here for left swipe
+      moveSliderRight();
+    }
+    
+    if (touchStart - touchEnd < -75) {
+      // do your stuff here for right swipe
+      moveSliderLeft();
+    }
+  }
+
+  const moveSliderRight = () => {
+    setCurrentMovieIndex(currentMovieIndex => (currentMovieIndex + 1) % movies.length)
+  }
+  
+  const moveSliderLeft = () => {
+    setCurrentMovieIndex((currentMovieIndex) =>
+      currentMovieIndex == 0
+        ? movies.length - 1
+        : (currentMovieIndex - 1) % movies.length
+    );
+  };
+
+  const playIcon = <span className="pr-1">
+    <PlayIcon fill="black" height="24px" className="bg-red"/>
+  </span>
+
+  const bookmarkIcon = <BookMarkIcon fill="var(--crunchy-orange)" height="24px"/>
+
   return (
-    <div>
+    <div 
+      onTouchStart={e => handleTouchStart(e)} 
+      onTouchMove={e => handleTouchMove(e)}
+      onTouchEnd={handleTouchEnd}>
       <div 
-        style={isImgLoaded ? {backgroundImage: `url(${movies[currentMovieIndex].imgUrl})`}: {}} 
         className={`
         h-[35rem]
         w-full
         relative
-        bg-loading-bg-color
-        bg-cover bg-center bg-no-repeat
-        after:block after:absolute after:bg-gradient-to-t after:from-black after:w-full after:h-full after:z-0
+        after:absolute after:bg-gradient-to-t after:from-black after:w-full after:h-full after:z-0
         flex flex-col items-center justify-end`}>
-        {!isImgLoaded 
-          ? <LoadingElement className='h-20 w-56' />
-          : <img 
-            className='px-28 my-4 z-10'
-            src={movies[currentMovieIndex].titleImgUrl} 
-          />
-        }
-        {!isImgLoaded 
-          ? <LoadingElement className='h-4 w-[76%] mt-4' />
-          : <div id='sub-dub-categories' className="text-slate-400 z-10 text-sm">
+
+        <div 
+          style={isImgLoaded ? {backgroundImage: `url(${movies[currentMovieIndex].imgUrl})`}: {}}
+          className="h-full w-full absolute top-0 left-0 bg-cover transition-all duration-500"
+        ></div>
+
+        {movies.map((movie, i) => 
+          <LoadingElement loading={!isImgLoaded} width="w-60" height="h-10" className="z-10 block">
+            <img 
+              className={`
+                w-60 z-10 mb-4 absolute bottom-40
+                bg-cover bg-no-repeat bg-center transition-all duration-500 
+                ${i != currentMovieIndex ? 'opacity-0 invisible' : 'opacity-100 block'}`} 
+              src={`${movie.titleImgUrl}`}>  
+            </img>
+          </LoadingElement>
+        )}
+        
+        <LoadingElement loading={!isImgLoaded} width="w-[76%]" height="h-4" className='mt-4 z-10'>
+          <div id='sub-dub-categories' className="text-slate-400 z-10 text-sm transition-all duration-500">
             {movies[currentMovieIndex].sub && <span>Sub |</span>} {movies[currentMovieIndex].dub && <span>Dub *</span>} {movies[currentMovieIndex].genres}
           </div>
-        }
-        
+        </LoadingElement>
+
         <div className='flex w-full px-4 my-4 z-10'>
-          {!isImgLoaded 
-            ? <LoadingElement className='h-[42px] flex-grow' />
-            :  <><CustomButton
-              grow
-              icon={
-                <span className="pr-1">
-                  <PlayIcon fill="black" height="24px" className="bg-red"/>
-                </span>
-              }
-              >Start Watching S1 E1</CustomButton>
-              <CustomButton
-                outline 
-                icon={<BookMarkIcon fill="var(--crunchy-orange)" height="24px"/>}
-              /></>
-            }
-          </div>
+          <LoadingElement loading={!isImgLoaded} height="h-[42px]" width="flex-grow">
+            <>
+              <CustomButton grow icon={playIcon}>Start Watching S1 E1</CustomButton>
+              <CustomButton outline icon={bookmarkIcon}/>
+            </>
+          </LoadingElement>
+        </div>
           
           
 
@@ -88,4 +135,4 @@ const HeroSlider = (props: HeroSliderProps) => {
   )
 }
 
-export default HeroSlider
+export default HeroSlider;
