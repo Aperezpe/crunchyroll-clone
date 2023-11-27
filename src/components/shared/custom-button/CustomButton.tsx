@@ -4,20 +4,20 @@ import './CustomButton.scss'
 
 interface CustomButtonProps {
   outline?: boolean,
-  grow?: boolean,
   icon?: JSX.Element,
+  className?: string,
 }
 
 const CustomButton = (props: PropsWithChildren<CustomButtonProps>) => {
-  const {outline, grow, icon} = props
+  const {outline, icon, className } = props
 
   const classes = classnames(
+    className,
     'p-[6px]', 'custom-button', 'bg-crunchy-orange', 'flex', 'items-center', 'justify-center', {
     'bg-transparent': outline,
     'border-crunchy-orange': outline,
     'border-solid': outline,
-    'border-[2.75px]': outline,
-    'flex-grow': grow
+    'border-[2.75px]': outline
   })
 
   return (

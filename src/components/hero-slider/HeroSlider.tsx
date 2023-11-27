@@ -4,6 +4,7 @@ import PlayIcon from "../../assets/play-icon.svg?react"
 import { CrunchyRollElement } from "../../models/movie"
 import { useEffect, useState } from "react"
 import LoadingElement from "../shared/loading-element/LoadingElement"
+import classnames from 'classnames'
 
 import './HeroSlider.scss'
 
@@ -67,11 +68,13 @@ const HeroSlider = (props: HeroSliderProps) => {
     );
   };
 
-  const playIcon = <span className="pr-1">
-    <PlayIcon fill="black" height="24px" className="bg-red"/>
-  </span>
-
+  const playIcon = <PlayIcon fill="black" height="24px" className="bg-red pr-1"/>
   const bookmarkIcon = <BookMarkIcon fill="var(--crunchy-orange)" height="24px"/>
+
+  const visibilityTransitionClass = (classNames: string, i: number) => classnames(classNames, {
+    'visibleEl': i == currentMovieIndex,
+    'hiddenEl': i != currentMovieIndex
+  })
 
   return (
     <div 
@@ -86,39 +89,67 @@ const HeroSlider = (props: HeroSliderProps) => {
         after:absolute after:bg-gradient-to-t after:from-black after:w-full after:h-full
         flex flex-col items-center justify-end`}>
 
-        <div 
-          style={isImgLoaded ? {backgroundImage: `url(${movies[currentMovieIndex].imgUrl})`}: {}}
-          className="h-full w-full absolute top-0 left-0 bg-cover transition-all duration-500"
-        ></div>
+        {/* Background Image */}
+        {movies.map((movie, index) => 
+          isImgLoaded && <img 
+            className={
+              visibilityTransitionClass('h-full w-full absolute bg-cover ', index)
+            }
+            src={`${movie.imgUrl}`}>  
+          </img>
+        )}
 
-        {movies.map((movie, i) => 
-          <LoadingElement loading={!isImgLoaded} width="w-60" height="h-10" className="z-10 block">
+        {/* Image Title */}
+        {movies.map((movie, index) => 
+          index == currentMovieIndex && 
+          <LoadingElement 
+            loading={!isImgLoaded} 
+            width="w-60" height="h-24" 
+            className="z-10 mb-4 absolute bottom-40">
             <img 
-              className={`
-                w-60 z-10 mb-4 absolute bottom-40
-                bg-cover bg-no-repeat bg-center transition-all duration-500 
-                ${i != currentMovieIndex ? 'opacity-0 invisible' : 'opacity-100 block'}`} 
+              className={
+                visibilityTransitionClass(
+                  'w-60 bg-cover bg-no-repeat bg-center z-10 mb-4 absolute bottom-40', index
+                )
+              }
               src={`${movie.titleImgUrl}`}>  
             </img>
           </LoadingElement>
         )}
-        
-        <LoadingElement loading={!isImgLoaded} width="w-[76%]" height="h-4" className='mt-4 z-10'>
-          <div id='sub-dub-categories' className="text-slate-400 z-10 text-sm transition-all duration-500">
-            {movies[currentMovieIndex].sub && <span>Sub |</span>} {movies[currentMovieIndex].dub && <span>Dub *</span>} {movies[currentMovieIndex].genres}
-          </div>
-        </LoadingElement>
 
-        <div className='flex w-full px-4 my-4 z-10'>
-          <LoadingElement loading={!isImgLoaded} height="h-[42px]" width="flex-grow">
-            <>
-              <CustomButton grow icon={playIcon}>Start Watching S1 E1</CustomButton>
-              <CustomButton outline icon={bookmarkIcon}/>
-            </>
-          </LoadingElement>
-        </div>
-          
-          
+        {/* Details */}
+        {movies.map((movie, index) => 
+          <div 
+            className={
+              visibilityTransitionClass(
+                "text-slate-400 text-sm z-10 absolute bottom-36", index
+              )
+            }>
+            <LoadingElement 
+              loading={!isImgLoaded} 
+              width="w-[76%]" height="h-4" 
+              className='mt-4 z-10 absolute bottom-36'
+            >
+              {movie.sub && <span>Sub | </span>} 
+              {movie.dub && <span>Dub ⬩ </span>} 
+              {movie.genres}
+            </LoadingElement>
+          </div>
+        )}
+
+        {movies.map((movie, index) => 
+          <div 
+            className={
+              visibilityTransitionClass("flex w-full px-4 my-4 z-10 absolute bottom-16", index)
+            }>
+            <LoadingElement loading={!isImgLoaded} height="h-[42px]" width="flex-grow">
+              <>
+                <CustomButton icon={playIcon} className="flex-grow">{movie.buttonText}</CustomButton>
+                <CustomButton outline icon={bookmarkIcon}/>
+              </>
+            </LoadingElement>
+          </div>
+        )}
 
         <div id='progress-indicator' className="pt-4 pb-10 text-white z-10 flex justify-center items-center">
           {isImgLoaded 

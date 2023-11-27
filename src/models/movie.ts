@@ -6,5 +6,6 @@ export interface CrunchyRollElement {
   titleImgUrl: string,
   imgUrl: string,
   genres: string,
-  type: string // Post, VideoGame, Movie, Show
+  type: string, // Post, VideoGame, Movie, Show,
+  buttonText: string
 }

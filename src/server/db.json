@@ -8,7 +8,7 @@
       "titleImgUrl": "https://static.crunchyroll.com/fms/logo/baa62fde-a536-4826-add0-4f8d29f7c91c.png",
       "imgUrl": "https://static.crunchyroll.com/fms/portrait_large/840x1260/94/png/7975553d-717d-4118-9609-1a8e063cfa2a.jpg",
       "genres": "Action, Adventure",
-      "type": "Show"
+      "buttonText": "Start Watching S1 E1"
     },
     {
       "id": 2,
@@ -18,7 +18,8 @@
       "titleImgUrl": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/512e7a8a-033b-4885-828a-e078b4701798/db9iwqz-5ae56a3b-cff8-4f5e-aeb9-1c222d7b4de2.png/v1/fill/w_1600,h_375/official_dragonball_z_logo_by_aubreiprince_db9iwqz-fullview.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9Mzc1IiwicGF0aCI6IlwvZlwvNTEyZTdhOGEtMDMzYi00ODg1LTgyOGEtZTA3OGI0NzAxNzk4XC9kYjlpd3F6LTVhZTU2YTNiLWNmZjgtNGY1ZS1hZWI5LTFjMjIyZDdiNGRlMi5wbmciLCJ3aWR0aCI6Ijw9MTYwMCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.ztVqNHCNOoG0Xi7A9UbmGywO3ri8p_5p8PdWN5KULJc",
       "imgUrl": "https://static.crunchyroll.com/fms/portrait_large/840x1260/94/png/b984e2d6-df58-4edc-aa0b-df3bc24084ff.jpg",
       "genres": "Comedy, Action, Adventure",
-      "type": "Show"
+      "type": "Show",
+      "buttonText": "Start Watching Movie"
     },
     {
       "id": 3,
@@ -28,7 +29,8 @@
       "titleImgUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Naruto_logo.svg/2560px-Naruto_logo.svg.png",
       "imgUrl": "https://static.crunchyroll.com/fms/portrait_large/840x1260/94/png/574f0440-7bea-4efe-94f0-f4bef95a97a2.jpg",
       "genres": "Fantasy, Supernatural",
-      "type": "Show"
+      "type": "Show",
+      "buttonText": "Start Watching S1 E1"
     }
   ]
 }

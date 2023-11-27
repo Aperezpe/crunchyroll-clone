@@ -3,10 +3,12 @@
   100% {width: 112%;}
 }
 
-// @keyframes fadeIn {
-//   0% {opacity: 0;}
-//   100% {opacity: 1;}
-// }
+@keyframes fadeIn {
+  0% {opacity: 0; }
+  100% {opacity: 1;}
+}
+
+$transitionTime: 0.5s;
 
 .currentPillAnimation::after {
   content: '';
@@ -16,16 +18,23 @@
   animation-name: increaseWidthLr;
 }
 
-// .currentElAnimation {
-//   opacity: 0;
-//   animation-fill-mode: backwards;
-//   animation-name: fadeIn;
-//   animation: 0.5s;
-//   animation-timing-function: ease-in;
-// }
+.currentElAnimation {
+  opacity: 0;
+  animation-fill-mode: forwards;
+  animation-name: fadeIn;
+  animation-duration: $transitionTime;
+  animation-timing-function: ease;
+}
 
-// .transitionBgImage {
-//   transition-property: opacity;
-//   transition-duration: 350ms;
-//   transition-timing-function: ease-in-out;
-// }
+/* Fade-In Effect */
+.visibleEl {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity #{$transitionTime} ease;
+}
+/* Fade-Out Effect */
+.hiddenEl {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s #{$transitionTime}, opacity #{$transitionTime} ease;
+}

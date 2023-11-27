@@ -21,32 +21,34 @@ function Home() {
   }
 
   // Pre-load images before showing to user, so that each slide element shows without delay
-  const loadImages = async () => {
-    const imagePromises: Promise<void>[] = []
-    if (slideShowElements) {
-      for (const movie of slideShowElements) {
-        const images = new Promise<void>((resolve) => {
-          const img = new Image();
-          img.src = movie.imgUrl;
-          img.src = movie.titleImgUrl;
-          img.onload = () => resolve();
-        });
-    
-        imagePromises.push(images);
-      }
-    }
-
-    try {
-      await new Promise(r => setTimeout(r, 1000))
-      await Promise.all(imagePromises)
-      setIsImgLoaded(true)
-    } catch (error) {
-      console.log(error)
-    }
-
-  }
-
+  
   useEffect(() => {
+    const loadImages = async () => {
+      const imagePromises: Promise<void>[] = []
+      if (slideShowElements) {
+        for (const movie of slideShowElements) {
+          const images = new Promise<void>((resolve) => {
+            const img = new Image();
+            img.src = movie.imgUrl;
+            img.src = movie.titleImgUrl;
+            img.onload = () => resolve();
+          });
+      
+          imagePromises.push(images);
+        }
+      }
+  
+      try {
+        await new Promise(r => setTimeout(r, 1000))
+        await Promise.all(imagePromises)
+        setIsImgLoaded(true)
+      } catch (error) {
+        console.log(error)
+      }
+  
+    }
+
+    
     if (slideShowElements === undefined) {
       fetchSlideShowElements()
     } else {
