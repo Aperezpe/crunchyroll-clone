@@ -2,27 +2,27 @@ import Navbar from '../components/navbar/Navbar'
 import HeroSlider from '../components/hero-slider/HeroSlider'
 import { CrunchyRollElement } from '../models/movie';
 import { useEffect, useState } from 'react';
-import { get } from '../utilities/http-request';
 import { Oval } from 'react-loader-spinner'
+import { CrunchyRollService } from '../services/crunchy-roll-repo';
 
 function Home() {
 
   const [slideShowElements, setSlideShowElements] = useState<CrunchyRollElement[]>()
   const [isImgLoaded, setIsImgLoaded] = useState<boolean>(false)
 
-  const fetchSlideShowElements = async () => {
-    try { 
-      const response = await get<CrunchyRollElement[]>('http://localhost:3000/slideShowMovies')
-      await new Promise(r => setTimeout(r, 500)) // TODO: delete, only for dev
-      setSlideShowElements(response.parsedBody)
-    } catch(error) {
-      console.log(error)
-    }
-  }
-
-  // Pre-load images before showing to user, so that each slide element shows without delay
-  
   useEffect(() => {
+    const fetchSlideShowElements = async () => {
+      const crunchyRollService: CrunchyRollService = new CrunchyRollService()
+      try { 
+        const response = await crunchyRollService.getSlideShowData()
+        await new Promise(r => setTimeout(r, 500)) // TODO: delete, only for dev
+        setSlideShowElements(response.parsedBody)
+      } catch(error) {
+        console.log(error)
+      }
+    }
+
+    // Pre-load images before showing to user, so that each slide element shows without delay
     const loadImages = async () => {
       const imagePromises: Promise<void>[] = []
       if (slideShowElements) {

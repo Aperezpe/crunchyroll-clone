@@ -13,7 +13,7 @@ export async function post<T>(
   return await http<T>(new Request(path, args));
 }
 
-interface HttpResponse<T> extends Response {
+export interface HttpResponse<T> extends Response {
   parsedBody?: T;
 }
 

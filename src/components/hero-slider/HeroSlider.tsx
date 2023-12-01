@@ -91,7 +91,8 @@ const HeroSlider = (props: HeroSliderProps) => {
 
         {/* Background Image */}
         {movies.map((movie, index) => 
-          isImgLoaded && <img 
+          isImgLoaded && <img
+            key={index} 
             className={
               visibilityTransitionClass('h-full w-full absolute bg-cover ', index)
             }
@@ -103,6 +104,7 @@ const HeroSlider = (props: HeroSliderProps) => {
         {movies.map((movie, index) => 
           index == currentMovieIndex && 
           <LoadingElement 
+            key={index}
             loading={!isImgLoaded} 
             width="w-60" height="h-24" 
             className="z-10 mb-4 absolute bottom-40">
@@ -119,13 +121,14 @@ const HeroSlider = (props: HeroSliderProps) => {
 
         {/* Details */}
         {movies.map((movie, index) => 
-          <div 
+          <div
+            key={index}
             className={
               visibilityTransitionClass(
                 "text-slate-400 text-sm z-10 absolute bottom-36", index
               )
             }>
-            <LoadingElement 
+            <LoadingElement
               loading={!isImgLoaded} 
               width="w-[76%]" height="h-4" 
               className='mt-4 z-10 absolute bottom-36'
@@ -137,8 +140,10 @@ const HeroSlider = (props: HeroSliderProps) => {
           </div>
         )}
 
+        {/* Action Button(s) */}
         {movies.map((movie, index) => 
           <div 
+            key={index}
             className={
               visibilityTransitionClass("flex w-full px-4 my-4 z-10 absolute bottom-16", index)
             }>
@@ -151,6 +156,7 @@ const HeroSlider = (props: HeroSliderProps) => {
           </div>
         )}
 
+        {/* Progress Indicator */}
         <div id='progress-indicator' className="pt-4 pb-10 text-white z-10 flex justify-center items-center">
           {isImgLoaded 
             ? movies.map((movie) => 
