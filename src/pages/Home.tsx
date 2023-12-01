@@ -1,6 +1,6 @@
 import Navbar from '../components/navbar/Navbar'
 import HeroSlider from '../components/hero-slider/HeroSlider'
-import { CrunchyRollElement } from '../models/movie';
+import { CrunchyRollElement } from '../models/crunchy-roll-element';
 import { useEffect, useState } from 'react';
 import { Oval } from 'react-loader-spinner'
 import { CrunchyRollService } from '../services/crunchy-roll-repo';
@@ -63,9 +63,8 @@ function Home() {
       {slideShowElements ? // First load all data
         // Then load all images for each section
         <>
-          <section>
-            <HeroSlider isImgLoaded={isImgLoaded} movies={slideShowElements} /> : 
-          </section>
+          <section><HeroSlider isImgLoaded={isImgLoaded} slideShowElements={slideShowElements} /></section>
+          {/* <section><SeasonalSampler isImgLoaded={isImgLoaded} /></section> */}
         </> : 
         <div className='h-full flex items-center justify-center'>
           <Oval

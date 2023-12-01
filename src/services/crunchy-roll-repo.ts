@@ -1,4 +1,4 @@
-import { CrunchyRollElement } from "../models/movie";
+import { CrunchyRollElement } from "../models/crunchy-roll-element";
 import { HttpResponse, get } from "../utilities/http-request";
 
 export class CrunchyRollService {
