@@ -71,6 +71,7 @@ const HeroSlider = (props: HeroSliderProps) => {
   const playIcon = <PlayIcon fill="black" height="24px" className="bg-red pr-1"/>
   const bookmarkIcon = <BookMarkIcon fill="var(--crunchy-orange)" height="24px"/>
 
+  // Handles the fade transition when an element shows or hides
   const visibilityTransitionClass = (classNames: string, i: number) => classnames(classNames, {
     'visibleEl': i == currentMovieIndex,
     'hiddenEl': i != currentMovieIndex
@@ -119,25 +120,23 @@ const HeroSlider = (props: HeroSliderProps) => {
           </LoadingElement>
         )}
 
+
         {/* Details */}
         {movies.map((movie, index) => 
-          <div
-            key={index}
-            className={
-              visibilityTransitionClass(
-                "text-slate-400 text-sm z-10 absolute bottom-36", index
-              )
-            }>
+         
             <LoadingElement
               loading={!isImgLoaded} 
               width="w-[76%]" height="h-4" 
-              className='mt-4 z-10 absolute bottom-36'
+              className="z-10 absolute bottom-36"
             >
-              {movie.sub && <span>Sub | </span>} 
-              {movie.dub && <span>Dub ⬩ </span>} 
-              {movie.genres}
+              <div className={
+                visibilityTransitionClass("text-slate-400 text-sm z-10 absolute bottom-36", index)
+              }>
+                {movie.sub && <span>Sub | </span>} 
+                {movie.dub && <span>Dub ⬩ </span>} 
+                {movie.genres}
+              </div>
             </LoadingElement>
-          </div>
         )}
 
         {/* Action Button(s) */}

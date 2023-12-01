@@ -47,7 +47,6 @@ function Home() {
       }
   
     }
-
     
     if (slideShowElements === undefined) {
       fetchSlideShowElements()
@@ -64,8 +63,9 @@ function Home() {
       {slideShowElements ? // First load all data
         // Then load all images for each section
         <>
-          <HeroSlider isImgLoaded={isImgLoaded} movies={slideShowElements} /> : 
-
+          <section>
+            <HeroSlider isImgLoaded={isImgLoaded} movies={slideShowElements} /> : 
+          </section>
         </> : 
         <div className='h-full flex items-center justify-center'>
           <Oval
